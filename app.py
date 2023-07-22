@@ -31,6 +31,8 @@ def auth_user():
         result = requests.get(uri)
         if result.status_code == 200:
             return "<p>You have successfully logged in!</p>"
+        else:
+            print("Request to {} failed with success code {}".format(uri, result.status_code))
     # read access code from URL (unsure if needed)
     # check scope has either activity:read OR activity:read_all
     return "<p>Something messed up. Please try again.</p>"
