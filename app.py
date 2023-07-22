@@ -5,7 +5,7 @@ verify_token = "qYdS0Jhjf4LmCmdso5b0d0rRw2jJp6xu"
 
 @app.route("/")
 def home():
-    return "<p></p>"
+    return "<p>hello!</p>"
 
 
 @app.route("/webhook", methods=['GET', 'POST'])
