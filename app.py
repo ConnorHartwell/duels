@@ -1,8 +1,10 @@
 from flask import Flask, request, abort
 import requests
+import os
 
 app = Flask(__name__)
-client_id = 110630
+client_id = os.environ['CLIENT_ID']
+client_secret = os.environ['CLIENT_SECRET']
 verify_token = "qYdS0Jhjf4LmCmdso5b0d0rRw2jJp6xu"
 
 @app.route("/")
@@ -28,7 +30,8 @@ def auth_user():
     if request.args.get("code") != "":
         uri = "https://www.strava.com/oauth/token?client_id={}&code={}&grant_type=authorization_code"\
                     .format(client_id, access_code)
-        result = requests.post(uri)
+        payload = {"client_secret": client_secret}
+        result = requests.post(uri, data=payload)
         if result.status_code == 200:
             return "<p>You have successfully logged in!</p>"
         else:
