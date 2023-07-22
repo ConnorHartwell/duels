@@ -28,11 +28,9 @@ def auth_user():
     if request.args.get("code") != "":
         uri = "https://www.strava.com/oauth/token?client_id={}&code={}&grant_type=authorization_code"\
                     .format(client_id, access_code)
-        result = requests.get(uri)
+        result = requests.post(uri)
         if result.status_code == 200:
             return "<p>You have successfully logged in!</p>"
         else:
             print("Request to {} failed with success code {}".format(uri, result.status_code))
-    # read access code from URL (unsure if needed)
-    # check scope has either activity:read OR activity:read_all
     return "<p>Something messed up. Please try again.</p>"
