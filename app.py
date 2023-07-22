@@ -1,6 +1,8 @@
 from flask import Flask, request, abort
+import requests
 
 app = Flask(__name__)
+client_id = 110630
 verify_token = "qYdS0Jhjf4LmCmdso5b0d0rRw2jJp6xu"
 
 @app.route("/")
@@ -22,6 +24,13 @@ def strava_webhook():
 
 @app.route("/auth", methods=['GET'])
 def auth_user():
+    access_code = request.args.get("code")
+    if request.args.get("code") != "":
+        uri = "https://www.strava.com/oauth/token?client_id={}&code={}&grant_type=authorization_code"\
+                    .format(client_id, access_code)
+        result = requests.get(uri)
+        if result.status_code == 200:
+            return "<p>You have successfully logged in!</p>"
     # read access code from URL (unsure if needed)
     # check scope has either activity:read OR activity:read_all
-    return "<p>You have successfully logged in!</p>"
+    return "<p>Something messed up. Please try again.</p>"
